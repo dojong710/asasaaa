@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마케팅 전략 & 데이터 분석 통합 허브 Pro</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Chart.js CDN for Interactive Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Marked.js for Markdown Parser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+
+    <!-- Google Fonts (Inter & Noto Sans KR) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card-hover:hover {
+            transform: translateY(-3px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.25);
+        }
+
+        .input-glass {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            transition: all 0.2s ease;
+        }
+        .input-glass:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .pulse-indicator {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+        @keyframes pulse-ring {
+            to {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+        }
+
+        .tab-active {
+            background-color: #4f46e5 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #0f172a !important;
+            }
+            .glass-card {
+                background: #ffffff !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #0f172a !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <header class="sticky top-0 z-40 glass-card border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 lg:px-8 py-3 no-print">
+        <div class="max-w-7xl mx-auto flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+            
+            <!-- Logo & Hub Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fas fa-cubes text-white text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg font-bold text-white tracking-tight">마케팅 전략 & 데이터 분석 통합 허브</h1>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            Hub Pro v3.5
+                        </span>
+                        <span id="auto-save-status" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 pulse-indicator"></span>
+                            실시간 연동
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+                        <i class="fas fa-layer-group text-indigo-400"></i>
+                        <span>통합 개요 &bull; STP 전략 &bull; 4P 마케팅 믹스 &bull; 구글 시트 분석 &bull; 통합 보고서</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- View Navigation Bar & Quick Controls -->
+            <div class="flex items-center flex-wrap gap-2 text-sm">
+                
+                <!-- Main Nav Tabs -->
+                <div class="flex bg-slate-800/90 p-1 rounded-xl border border-slate-700/80 mr-1 overflow-x-auto">
+                    <button id="tab-hub-btn" onclick="switchTab('hub')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-slate-300 tab-active">
+                        <i class="fas fa-house"></i>
+                        <span>허브 개요</span>
+                    </button>
+                    <button id="tab-stp-btn" onclick="switchTab('stp')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200">
+                        <i class="fas fa-bullseye text-blue-400"></i>
+                        <span>STP 전략 & 지각도</span>
+                    </button>
+                    <button id="tab-4p-btn" onclick="switchTab('4p')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200">
+                        <i class="fas fa-chart-pie text-amber-400"></i>
+                        <span>4P 마케팅 믹스</span>
+                    </button>
+                    <button id="tab-sheet-btn" onclick="switchTab('sheet')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200">
+                        <i class="fa-brands fa-google-drive text-emerald-400"></i>
+                        <span>구글 시트 대시보드</span>
+                    </button>
+                    <button id="tab-report-btn" onclick="switchTab('report')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200">
+                        <i class="fas fa-file-contract text-purple-400"></i>
+                        <span>통합 보고서</span>
+                    </button>
+                </div>
+
+                <!-- Unified Preset Selector -->
+                <div class="relative">
+                    <select id="preset-select" onchange="loadPreset(this.value)" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 cursor-pointer font-medium">
+                        <option value="">💡 통합 프리셋 템플릿</option>
+                        <option value="saas">💻 B2B AI 솔루션 SaaS</option>
+                        <option value="coffee">☕ 프리미엄 스페셜티 커피</option>
+                        <option value="fitness">📱 피트니스 & 헬스케어 앱</option>
+                        <option value="eco">🌱 친환경 텀블러/리빙 브랜드</option>
+                    </select>
+                </div>
+
+                <!-- Quick Action Buttons -->
+                <button onclick="saveDraft()" title="임시 저장" class="p-2 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all text-xs font-medium flex items-center gap-1">
+                    <i class="fas fa-save text-indigo-400"></i>
+                    <span class="hidden sm:inline">저장</span>
+                </button>
+
+                <button onclick="confirmClearAllFields()" title="초기화" class="p-2 px-2.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-all text-xs font-medium flex items-center gap-1">
+                    <i class="fas fa-rotate-right"></i>
+                    <span class="hidden sm:inline">초기화</span>
+                </button>
+
+                <button onclick="openPreviewModal()" class="p-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-all flex items-center gap-1.5 text-xs font-semibold shadow-md shadow-indigo-600/20">
+                    <i class="fas fa-file-export"></i>
+                    <span>보고서 내보내기</span>
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: HUB OVERVIEW DASHBOARD -->
+        <!-- ========================================== -->
+        <div id="view-hub" class="space-y-6">
+            
+            <!-- Hero Hub Overview Banner -->
+            <section class="glass-card rounded-2xl p-6 lg:p-8 border border-slate-800 relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                    <div class="space-y-2 max-w-2xl">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase tracking-wider">
+                            Executive Strategy Suite
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                            통합 마케팅 프레임워크 & 데이터 대시보드
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            STP 분석, 포지셔닝 지각도, 4P 마케팅 믹스 전략 수립 및 구글 시트 실시간 데이터 시각화를 하나의 대시보드에서 완벽하게 제어하세요.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="switchTab('stp')" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-all shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-2">
+                            <i class="fas fa-bullseye"></i> STP 전략 시작
+                        </button>
+                        <button onclick="switchTab('4p')" class="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs transition-all shadow-lg shadow-amber-600/25 flex items-center justify-center gap-2">
+                            <i class="fas fa-chart-pie"></i> 4P 마케팅 믹스
+                        </button>
+                        <button onclick="switchTab('sheet')" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-all shadow-lg shadow-emerald-600/25 flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-google-drive"></i> 시트 대시보드
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Framework Progress Gauges Grid -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Card 1: STP Completion -->
+                <div onclick="switchTab('stp')" class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">STP 전략 완성도</span>
+                        <div class="w-9 h-9 rounded-xl bg-blue-500/15 text-blue-400 flex items-center justify-center">
+                            <i class="fas fa-bullseye text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="hubStpPercent">0%</span>
+                        <span class="text-xs text-blue-400 font-medium" id="hubStpCount">0/12 항목</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                        <div id="hubStpBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-500 w-0"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 truncate">시장 세분화, 타겟팅, 포지셔닝</p>
+                </div>
+
+                <!-- Card 2: 4P Mix Completion -->
+                <div onclick="switchTab('4p')" class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">4P 마케팅 믹스 완성도</span>
+                        <div class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
+                            <i class="fas fa-chart-pie text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="hub4pPercent">0%</span>
+                        <span class="text-xs text-amber-400 font-medium" id="hub4pCount">0/16 항목</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                        <div id="hub4pBar" class="bg-amber-500 h-1.5 rounded-full transition-all duration-500 w-0"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 truncate">Product, Price, Place, Promotion</p>
+                </div>
+
+                <!-- Card 3: Perceptual Map Status -->
+                <div onclick="switchTab('stp')" class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">포지셔닝 지각도 맵</span>
+                        <div class="w-9 h-9 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center">
+                            <i class="fas fa-crosshairs text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-xl font-bold text-white tracking-tight">2D & 레이더 차트</span>
+                        <span class="text-xs text-purple-400 font-medium">실시간 작동 중</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                        <div class="bg-purple-500 h-1.5 rounded-full w-full"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 truncate">경쟁사 좌표 및 5대 축 비교</p>
+                </div>
+
+                <!-- Card 4: Google Sheet Live Status -->
+                <div onclick="switchTab('sheet')" class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">구글 시트 연동</span>
+                        <div class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+                            <i class="fa-brands fa-google-drive text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="hubSheetRecordCount">0</span>
+                        <span class="text-xs text-emerald-400 font-medium">행 수집됨</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-1.5 mt-3 overflow-hidden">
+                        <div id="hubSheetBar" class="bg-emerald-500 h-1.5 rounded-full w-full"></div>
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2 truncate" id="hubSheetSub">실시간 데이터 시각화 준비 완료</p>
+                </div>
+
+            </section>
+
+            <!-- Framework Hub Cards Summary Section -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Module 1: STP Framework -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <span class="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full border border-blue-500/20 font-semibold">
+                                STP Framework
+                            </span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">시장 세분화 & 포지셔닝</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            인구통계, 지리, 심리, 행동 기준 시장 세분화부터 핵심 페르소나 설정 및 차별화 명제 작성.
+                        </p>
+                    </div>
+                    <button onclick="switchTab('stp')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-400 border border-slate-700 text-xs font-semibold transition-all flex items-center justify-center gap-1.5">
+                        <span>STP 전략 열기</span> <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Module 2: 4P Marketing Mix -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-boxes-packing"></i>
+                            </div>
+                            <span class="text-xs bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/20 font-semibold">
+                                4P Mix
+                            </span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">4P 마케팅 믹스 플래너</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            제품(Product), 가격(Price), 유통(Place), 판촉(Promotion) 16가지 세부 항목별 실행 전략 설계.
+                        </p>
+                    </div>
+                    <button onclick="switchTab('4p')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 text-xs font-semibold transition-all flex items-center justify-center gap-1.5">
+                        <span>4P 플래너 열기</span> <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Module 3: Google Sheets Analytics -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-brands fa-google-drive"></i>
+                            </div>
+                            <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20 font-semibold">
+                                Live Data
+                            </span>
+                        </div>
+                        <h3 class="text-base font-bold text-white">구글 시트 인포그래픽 대시보드</h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            실시간 구글 시트 API 연동, 데이터 자동 분석, 막대/원형/선 차트 및 9개 항목 미니 카드 시각화.
+                        </p>
+                    </div>
+                    <button onclick="switchTab('sheet')" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 text-xs font-semibold transition-all flex items-center justify-center gap-1.5">
+                        <span>시트 대시보드 열기</span> <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Project Context Summary -->
+            <section class="glass-card rounded-2xl p-6 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-folder text-indigo-400"></i>
+                        현재 진행 중인 브랜드 프로젝트 정보
+                    </h3>
+                    <span class="text-xs text-slate-400">모든 프레임워크와 동기화됩니다.</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">브랜드 / 프로젝트명</label>
+                        <input type="text" id="brand-name" oninput="updateAllProgress()" class="input-glass w-full text-xs rounded-lg p-2.5" placeholder="예: 알파SaaS (AlphaSaaS)">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">산업 / 카테고리</label>
+                        <input type="text" id="brand-category" oninput="updateAllProgress()" class="input-glass w-full text-xs rounded-lg p-2.5" placeholder="예: B2B 생성형 AI 업무 자동화 솔루션">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">핵심 사업 목표</label>
+                        <input type="text" id="brand-goal" oninput="updateAllProgress()" class="input-glass w-full text-xs rounded-lg p-2.5" placeholder="예: 출시 1년 내 시장 점유율 15% 및 ARR 20억 달성">
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: STP STRATEGY & PERCEPTUAL MAP -->
+        <!-- ========================================== -->
+        <div id="view-stp" class="hidden space-y-6">
+
+            <!-- SEGMENTATION SECTION (S) -->
+            <section class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                <div class="bg-gradient-to-r from-blue-600/90 to-cyan-600/90 p-4 text-white flex items-center justify-between border-b border-blue-500/30">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                            <i class="fas fa-chart-pie text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold tracking-tight">Segmentation (시장 세분화)</h3>
+                            <p class="text-[11px] text-blue-100 opacity-90">전체 시장을 기준별로 다각도 분석하여 동질 그룹으로 구분합니다.</p>
+                        </div>
+                    </div>
+                    <span id="badge-seg" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                </div>
+
+                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-900/40">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-users text-blue-400"></i> 인구통계학적 세분화 (Demographic)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">연령, 성별, 소득 수준, 직업, 교육 수준, 가구 형태 등</p>
+                        <textarea id="seg-demo" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 25~45세 남녀, 월 소득 350만 원 이상 직장인 및 자영업자."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-map-marked-alt text-blue-400"></i> 지리적 세분화 (Geographic)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">거주 지역, 도시 규모, 기후, 인구 밀도, 디지털 접근성 등</p>
+                        <textarea id="seg-geo" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 수도권 및 광역시 거주 중심, 고밀도 오피스 상권 근무자."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-brain text-blue-400"></i> 심리분석적 세분화 (Psychographic)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">라이프스타일, 가치관, 성향, 사회적 계층, 신기술 수용성 등</p>
+                        <textarea id="seg-psycho" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 효율성과 생산성을 극대화하려는 얼리아답터, 트렌드 민감형."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-user-check text-blue-400"></i> 행동분석적 세분화 (Behavioral)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">사용 빈도, 브랜드 충성도, 추구 혜택, 구매 준비 단계 등</p>
+                        <textarea id="seg-behavior" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 일일 업무 중 반복 작업이 많은 중헤비 유저."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TARGETING SECTION (T) -->
+            <section class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                <div class="bg-gradient-to-r from-emerald-600/90 to-teal-600/90 p-4 text-white flex items-center justify-between border-b border-emerald-500/30">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                            <i class="fas fa-bullseye text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold tracking-tight">Targeting (타겟 시장 선정)</h3>
+                            <p class="text-[11px] text-emerald-100 opacity-90">세분화된 시장 중 자사의 역량과 매력도가 가장 높은 세그먼트를 선택합니다.</p>
+                        </div>
+                    </div>
+                    <span id="badge-target" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                </div>
+
+                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-900/40">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-crosshairs text-emerald-400"></i> 주목표 타겟 세그먼트 (Primary Target)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">가장 집중적으로 공략할 핵심 고객 그룹 정의</p>
+                        <textarea id="target-primary" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 데이터 분석 부담이 큰 스타트업 및 중소기업 마케팅 책임자."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-id-card text-emerald-400"></i> 핵심 타겟 페르소나 (Target Persona)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">가상 가공 인물의 이름, 연령, 직책, 주요 니즈와 상황</p>
+                        <textarea id="target-persona" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: '34세 김팀장' - 마케팅 리포트 작성으로 매주 8시간 소모."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-chart-line text-emerald-400"></i> 시장 규모 & 성장성 (Market Evaluation)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">타겟 세그먼트의 시장 크기, 연평균 성장률(CAGR), 수익성</p>
+                        <textarea id="target-market" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 국내 B2B SaaS 시장 연 22% 성장 중. 잠재 시장 규모 약 1,500억 원."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-chess text-emerald-400"></i> 타겟팅 전략 유형 (Targeting Strategy)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">집중화 마케팅, 차별화 마케팅, 비차별화 마케팅 중 선택 사유</p>
+                        <textarea id="target-strategy" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: Niche/Concentrated Strategy (틈새 집중화 전략)."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- POSITIONING SECTION (P) -->
+            <section class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                <div class="bg-gradient-to-r from-purple-600/90 to-indigo-600/90 p-4 text-white flex items-center justify-between border-b border-purple-500/30">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                            <i class="fas fa-compass text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold tracking-tight">Positioning (포지셔닝 전략)</h3>
+                            <p class="text-[11px] text-purple-100 opacity-90">타겟 고객의 뇌리에 브랜드의 고유한 차별적 위상을 각인시킵니다.</p>
+                        </div>
+                    </div>
+                    <span id="badge-pos" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                </div>
+
+                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-900/40">
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-quote-left text-purple-400"></i> 포지셔닝 선언문 (Positioning Statement)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">[타겟]에게 [우리 브랜드]는 [차별화 가치]를 제공하는 [카테고리]이다.</p>
+                        <textarea id="pos-statement" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: '비효율적 리포팅으로 고민하는 마케터'에게 '알파SaaS'는 1분 자동 리포트를 완성해주는 AI 솔루션이다."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-gem text-purple-400"></i> 핵심 가치 제안 (Value Proposition)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">고객이 우리 제품을 선택해야 하는 독보적 차별점 (USP)</p>
+                        <textarea id="pos-value" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 기존 구글 시트 및 광고 계정과 원클릭 자동 연동 지원."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-shield-alt text-purple-400"></i> 경쟁사 대비 차별화 포인트 (POD)
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">경쟁사와 확실히 구별되는 독점적 장점</p>
+                        <textarea id="pos-diff" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 해외 비싼 파워BI/Tableau 대비 70% 저렴하면서 한글 완벽 지원."></textarea>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                            <i class="fas fa-flag text-purple-400"></i> 브랜드 슬로건 및 연상 이미지
+                        </label>
+                        <p class="text-[11px] text-slate-400 mb-1">고객의 머릿속에 기억될 한 줄 슬로건 및 핵심 키워드</p>
+                        <textarea id="pos-slogan" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: '데이터 분석, 클릭 한 번으로 퇴근을 앞당기다.'"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2D Perceptual Map & Competitor Radar Section -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Map Slider Box -->
+                <div class="glass-card rounded-2xl p-6 lg:col-span-1 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2 mb-1">
+                            <i class="fas fa-sliders-h text-indigo-400"></i>
+                            2D 포지셔닝 맵 축 및 좌표 설정
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">지각도(Perceptual Map)의 X축, Y축 기준 및 각 브랜드 위치를 실시간 조정하세요.</p>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                                <span class="font-bold text-blue-400 block"><i class="fas fa-arrows-left-right mr-1"></i> X축 기준 (가로)</span>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input type="text" id="map-x-min" oninput="renderMapCharts()" value="저가격 (가성비)" class="input-glass rounded p-1.5 text-xs" placeholder="X축 최소 (좌)">
+                                    <input type="text" id="map-x-max" oninput="renderMapCharts()" value="고가격 (프리미엄)" class="input-glass rounded p-1.5 text-xs" placeholder="X축 최대 (우)">
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                                <span class="font-bold text-indigo-400 block"><i class="fas fa-arrows-up-down mr-1"></i> Y축 기준 (세로)</span>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <input type="text" id="map-y-min" oninput="renderMapCharts()" value="기능 복잡함" class="input-glass rounded p-1.5 text-xs" placeholder="Y축 최소 (하)">
+                                    <input type="text" id="map-y-max" oninput="renderMapCharts()" value="사용 쉬움 (자동화)" class="input-glass rounded p-1.5 text-xs" placeholder="Y축 최대 (상)">
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                                <span class="font-bold text-emerald-400 block"><i class="fas fa-map-marker-alt mr-1"></i> 자사 브랜드 좌표</span>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">X축: <b id="val-our-x" class="text-white">5</b></span>
+                                        <input type="range" id="pos-our-x" min="-10" max="10" value="5" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">Y축: <b id="val-our-y" class="text-white">8</b></span>
+                                        <input type="range" id="pos-our-y" min="-10" max="10" value="8" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                                <span class="font-bold text-amber-400 block"><i class="fas fa-building mr-1"></i> 경쟁사 A 좌표</span>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">X축: <b id="val-compA-x" class="text-white">8</b></span>
+                                        <input type="range" id="pos-compA-x" min="-10" max="10" value="8" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">Y축: <b id="val-compA-y" class="text-white">-4</b></span>
+                                        <input type="range" id="pos-compA-y" min="-10" max="10" value="-4" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                                <span class="font-bold text-rose-400 block"><i class="fas fa-building mr-1"></i> 경쟁사 B 좌표</span>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">X축: <b id="val-compB-x" class="text-white">-6</b></span>
+                                        <input type="range" id="pos-compB-x" min="-10" max="10" value="-6" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <span class="text-[11px] text-slate-400">Y축: <b id="val-compB-y" class="text-white">-2</b></span>
+                                        <input type="range" id="pos-compB-y" min="-10" max="10" value="-2" oninput="updateMapSliderValues()" class="w-full h-1 bg-slate-700 rounded cursor-pointer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perceptual Scatter Canvas Card -->
+                <div class="glass-card rounded-2xl p-6 lg:col-span-2 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fas fa-crosshairs text-indigo-400"></i>
+                                2D 포지셔닝 지각도 (Perceptual Positioning Map)
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">자사 브랜드 및 경쟁사들의 상대적 위상 좌표 그래프입니다.</p>
+                        </div>
+                        <span class="text-xs bg-indigo-500/20 text-indigo-300 px-2.5 py-1 rounded-full border border-indigo-500/30">실시간 매핑</span>
+                    </div>
+
+                    <div class="relative w-full h-80 sm:h-96">
+                        <canvas id="perceptualScatterChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Competitor Radar Section -->
+            <section class="glass-card rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-chart-radar text-purple-400"></i>
+                            브랜드 경쟁력 레이더 차트 (Competitor Radar Analysis)
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">가격, 품질, 신기술/혁신성, 사용 편의성, 고객 서비스 5대 축 경쟁력 비교</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="relative w-full h-72 sm:h-80">
+                        <canvas id="competitorRadarChart"></canvas>
+                    </div>
+
+                    <div class="space-y-3 text-xs bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <h4 class="font-bold text-white flex items-center gap-2 text-sm border-b border-slate-800 pb-2">
+                            <i class="fas fa-award text-amber-400"></i> 포지셔닝 타당성 진단
+                        </h4>
+                        <div class="space-y-2 text-slate-300 leading-relaxed">
+                            <p class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-emerald-400 mt-0.5"></i>
+                                <span><b>차별적 위치 확보:</b> 경쟁사와 구분된 독자적 사분면 영역을 확보하였는지 점검합니다.</span>
+                            </p>
+                            <p class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-emerald-400 mt-0.5"></i>
+                                <span><b>고객 가치 부합성:</b> 타겟 고객이 중시하는 핵심 구매 요인(KBF)과 일치하는지 확인합니다.</span>
+                            </p>
+                            <p class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-emerald-400 mt-0.5"></i>
+                                <span><b>실현 가능성:</b> 자사의 기술력 및 자원으로 지속적 약속 이행이 가능한지 검토합니다.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: 4P MARKETING MIX PLANNER -->
+        <!-- ========================================== -->
+        <div id="view-4p" class="hidden space-y-6">
+
+            <!-- 4P Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- 1. PRODUCT -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                    <div class="bg-gradient-to-r from-blue-600/90 to-indigo-600/90 p-4 text-white flex items-center justify-between border-b border-blue-500/30">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                                <i class="fas fa-box-open text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold tracking-tight">1. Product (제품 전략)</h3>
+                                <p class="text-[11px] text-blue-100 opacity-90">핵심 가치, 스펙, 패키징, 디자인 및 A/S</p>
+                            </div>
+                        </div>
+                        <span id="badge-4p-prod" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                    </div>
+
+                    <div class="p-5 space-y-4 bg-slate-900/40 flex-1">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-star text-blue-400"></i> 핵심 가치 제안 및 차별화 요소 (USP)
+                            </label>
+                            <textarea id="p-prod-core" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 독자 개발한 친환경 3중 단열 기술로 24시간 온도 유지."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-layer-group text-blue-400"></i> 주요 스펙, 기능 및 라인업 (Specifications)
+                            </label>
+                            <textarea id="p-prod-spec" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 500ml / 750ml 2종 라인업. 파스텔 톤 5가지 컬러."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-paint-brush text-blue-400"></i> 패키징, 디자인 및 브랜딩 (Packaging)
+                            </label>
+                            <textarea id="p-prod-package" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: Zero-Waste 종이 패키징 적용. 매트한 고급 질감."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-handshake-angle text-blue-400"></i> 고객 서비스 & 품질 보증 (A/S)
+                            </label>
+                            <textarea id="p-prod-service" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 평생 부품 보증제(뚜껑 무상 교환), 1년 무상 A/S."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. PRICE -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                    <div class="bg-gradient-to-r from-emerald-600/90 to-teal-600/90 p-4 text-white flex items-center justify-between border-b border-emerald-500/30">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                                <i class="fas fa-tags text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold tracking-tight">2. Price (가격 전략)</h3>
+                                <p class="text-[11px] text-emerald-100 opacity-90">가격책정 방식, 프라이싱 모델, 할인 및 원가 마진</p>
+                            </div>
+                        </div>
+                        <span id="badge-4p-price" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                    </div>
+
+                    <div class="p-5 space-y-4 bg-slate-900/40 flex-1">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-coins text-emerald-400"></i> 가격 책정 전략 및 요금 구조 (Pricing)
+                            </label>
+                            <textarea id="p-price-strategy" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 프리미엄 고가격 전략(Skimming Strategy). 35,000원에 책정."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-percent text-emerald-400"></i> 프로모션 할인 및 결제 조건 (Discounts)
+                            </label>
+                            <textarea id="p-price-discount" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 신규 가입 15% 쿠폰, 2개 세트 구매 시 20% 할인 패키지."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-receipt text-emerald-400"></i> 원가 구조 및 목표 마진율 (Margin)
+                            </label>
+                            <textarea id="p-price-margin" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 제조 원가율 25%, 목표 영업이익률 40% 확보."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-scale-balanced text-emerald-400"></i> 경쟁사 대비 가격 경쟁력 (Comparison)
+                            </label>
+                            <textarea id="p-price-compare" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 경쟁사 A 대비 가격은 높으나 LTV 관점에서 높은 가치 제공."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PLACE -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                    <div class="bg-gradient-to-r from-purple-600/90 to-violet-600/90 p-4 text-white flex items-center justify-between border-b border-purple-500/30">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                                <i class="fas fa-store text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold tracking-tight">3. Place (유통/채널 전략)</h3>
+                                <p class="text-[11px] text-purple-100 opacity-90">판매 채널, 온/오프라인 접점, 물류 및 배송</p>
+                            </div>
+                        </div>
+                        <span id="badge-4p-place" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                    </div>
+
+                    <div class="p-5 space-y-4 bg-slate-900/40 flex-1">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-globe text-purple-400"></i> 온라인 유통 채널 (Online)
+                            </label>
+                            <textarea id="p-place-online" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 공식 자사몰(D2C) 중심 운영, 네이버 브랜드 스토어, 쿠팡."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-building-store text-purple-400"></i> 오프라인 유통 채널 (Offline)
+                            </label>
+                            <textarea id="p-place-offline" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 주요 대형 백화점 팝업스토어 및 성수동 플래그십 스토어."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-truck-fast text-purple-400"></i> 물류, 배송 및 풀필먼트 (Logistics)
+                            </label>
+                            <textarea id="p-place-logistics" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 풀필먼트 연동으로 당일 발송 체계 구축. 친환경 종이 완충재 사용."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-handshake text-purple-400"></i> 유통 파트너십 전략 (Partnerships)
+                            </label>
+                            <textarea id="p-place-partner" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 친환경 카페 브랜드와의 콜라보 굿즈 유통 파트너십 체결."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. PROMOTION -->
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col border border-slate-800">
+                    <div class="bg-gradient-to-r from-amber-500/90 to-orange-600/90 p-4 text-white flex items-center justify-between border-b border-amber-500/30">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-white/20 p-2 rounded-xl backdrop-blur-md">
+                                <i class="fas fa-bullhorn text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold tracking-tight">4. Promotion (판촉/홍보 전략)</h3>
+                                <p class="text-[11px] text-amber-100 opacity-90">디지털 광고, SNS/콘텐츠, 인플루언서 및 이벤트</p>
+                            </div>
+                        </div>
+                        <span id="badge-4p-promo" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold">미작성</span>
+                    </div>
+
+                    <div class="p-5 space-y-4 bg-slate-900/40 flex-1">
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-rectangle-ad text-amber-400"></i> 퍼포먼스 & 타겟 광고 채널 (Advertising)
+                            </label>
+                            <textarea id="p-promo-ad" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 메타(인스타그램) 숏폼 영상 광고, 네이버 검색광고(SA)."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-hashtag text-amber-400"></i> 소셜 미디어 & 콘텐츠 마케팅 (SNS)
+                            </label>
+                            <textarea id="p-promo-sns" rows="3" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 인스타그램 릴스 발행 및 #나의플로깅 유저 참여형 챌린지."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-users text-amber-400"></i> 인플루언서 & 바이럴 전략 (Influencers)
+                            </label>
+                            <textarea id="p-promo-influencer" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 아웃도어/캠핑 브이로그 유튜버 20명 협찬 및 서포터즈."></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fas fa-gift text-amber-400"></i> 세일즈 프로모션 & 이벤트 (Events)
+                            </label>
+                            <textarea id="p-promo-event" rows="2" oninput="updateAllProgress()" class="input-glass w-full p-2.5 text-xs rounded-xl resize-y" placeholder="예: 얼리버드 구매자 무료 각인 서비스, 친구 추천 5,000원 적립금."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: LIVE GOOGLE SHEETS DASHBOARD -->
+        <!-- ========================================== -->
+        <div id="view-sheet" class="hidden space-y-6">
+
+            <!-- Banner Alert for Sheet Status -->
+            <div id="statusAlert" class="hidden rounded-xl p-4 border transition-all text-sm flex items-start justify-between gap-3">
+                <div class="flex items-start gap-3">
+                    <i class="fas fa-info-circle text-lg mt-0.5" id="statusAlertIcon"></i>
+                    <div>
+                        <h4 class="font-semibold" id="statusAlertTitle">알림</h4>
+                        <p class="text-xs opacity-90 mt-0.5" id="statusAlertMessage"></p>
+                    </div>
+                </div>
+                <button onclick="closeStatusAlert()" class="opacity-70 hover:opacity-100 p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Google Sheet Live KPIs Row -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- KPI 1: Total Records -->
+                <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">전체 데이터 수</span>
+                        <div class="w-9 h-9 rounded-xl bg-blue-500/15 text-blue-400 flex items-center justify-center">
+                            <i class="fas fa-database text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="kpiTotalRecords">0</span>
+                        <span class="text-xs text-blue-400 font-medium">행 데이터</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 truncate" id="kpiRecordsSub">실시간 반영됨</p>
+                </div>
+
+                <!-- KPI 2: Primary Metric Sum -->
+                <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" id="kpiMetric1Title">주요 수치 합계</span>
+                        <div class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+                            <i class="fas fa-calculator text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="kpiMetric1Value">0</span>
+                        <span class="text-xs text-emerald-400 font-medium">누적 합계</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 truncate" id="kpiMetric1Sub">수치 데이터 자동 총합</p>
+                </div>
+
+                <!-- KPI 3: Average Metric -->
+                <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" id="kpiMetric2Title">평균 지표</span>
+                        <div class="w-9 h-9 rounded-xl bg-violet-500/15 text-violet-400 flex items-center justify-center">
+                            <i class="fas fa-chart-pie text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-3xl font-extrabold text-white tracking-tight" id="kpiMetric2Value">0</span>
+                        <span class="text-xs text-violet-400 font-medium">평균값</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 truncate" id="kpiMetric2Sub">항목당 평균 수치</p>
+                </div>
+
+                <!-- KPI 4: Top Category -->
+                <div class="glass-card glass-card-hover rounded-2xl p-5 relative overflow-hidden group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" id="kpiTopCategoryTitle">최다 항목 카테고리</span>
+                        <div class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center">
+                            <i class="fas fa-trophy text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline justify-between">
+                        <span class="text-2xl font-bold text-white truncate max-w-[170px]" id="kpiTopCategoryValue">-</span>
+                        <span class="text-xs text-amber-400 font-semibold" id="kpiTopCategoryCount">0건</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2 truncate" id="kpiTopCategorySub">가장 비중이 높은 분류</p>
+                </div>
+            </section>
+
+            <!-- Main Charts Row -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Infographic Summary Card -->
+                <div class="glass-card rounded-2xl p-6 lg:col-span-1 flex flex-col justify-between relative overflow-hidden">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fas fa-lightbulb text-amber-400"></i> 데이터 핵심 요약
+                            </h3>
+                            <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full font-mono border border-slate-700" id="dataColumnsCount">0개 열</span>
+                        </div>
+
+                        <p class="text-xs text-slate-300 leading-relaxed mb-6" id="infographicSummaryText">
+                            구글 시트 수집 데이터에 대한 주요 분포 및 트렌드 분석 요약입니다.
+                        </p>
+
+                        <div class="space-y-4" id="distributionBarsContainer">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                        <span>마지막 업데이트</span>
+                        <span id="lastUpdatedTimestamp" class="font-mono text-slate-300">방금 전</span>
+                    </div>
+                </div>
+
+                <!-- Main Bar Chart -->
+                <div class="glass-card rounded-2xl p-6 lg:col-span-2 flex flex-col justify-between">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2" id="chart1Heading">
+                                <i class="fas fa-chart-column text-blue-400"></i> 항목별 수치 비교 및 분포
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">카테고리 또는 항목별 데이터 수치 시각화</p>
+                        </div>
+                        <select id="chart1MetricSelect" onchange="renderCharts()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1 focus:outline-none">
+                            <!-- Dynamic numeric options -->
+                        </select>
+                    </div>
+                    
+                    <div class="relative w-full h-64 sm:h-72">
+                        <canvas id="mainBarChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Secondary Charts Row -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2" id="chart2Heading">
+                                <i class="fas fa-chart-pie text-violet-400"></i> 비중 & 비율 구성 분석
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">상위 항목 점유율 분포</p>
+                        </div>
+                        <select id="chart2CategorySelect" onchange="renderCharts()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2 py-1 focus:outline-none">
+                            <!-- Dynamic categorical options -->
+                        </select>
+                    </div>
+                    <div class="relative w-full h-64 flex items-center justify-center">
+                        <canvas id="shareDoughnutChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2" id="chart3Heading">
+                                <i class="fas fa-chart-line text-emerald-400"></i> 추이 & 변화 분석
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">시간/순서 경과에 따른 수치 흐름</p>
+                        </div>
+                    </div>
+                    <div class="relative w-full h-64">
+                        <canvas id="lineTrendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9 Items Mini Cards Section -->
+            <section class="glass-card rounded-2xl p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-th-large text-cyan-400"></i> 9개 주요 항목별 개별 시각화 그래프
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">상위 9개 항목의 세부 지표 및 개별 추이 그래프입니다.</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-400 font-medium">그래프 유형:</span>
+                        <select id="itemGridChartType" onchange="renderItemGrid()" class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-500 font-medium">
+                            <option value="bar" selected>프로그레스 게이지</option>
+                            <option value="donut">원형 비율 차트</option>
+                            <option value="sparkline">개별 추이 선그래프</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="itemGridContainer">
+                    <!-- Dynamic 9 Item Cards -->
+                </div>
+            </section>
+
+            <!-- Table Section -->
+            <section class="glass-card rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+                    <div>
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-table text-indigo-400"></i> 실시간 상세 데이터 테이블
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">구글 시트 원본 데이터 조회 및 검색</p>
+                    </div>
+
+                    <div class="flex items-center flex-wrap gap-2">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input type="text" id="tableSearchInput" oninput="handleTableSearch()" placeholder="검색어 입력..." 
+                                class="bg-slate-800 text-xs text-slate-200 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:border-indigo-500 w-44 sm:w-60">
+                        </div>
+
+                        <button onclick="exportToCSV()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs transition-all flex items-center gap-1.5">
+                            <i class="fas fa-file-csv text-emerald-400"></i>
+                            <span>CSV 다운로드</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-800 max-h-96 overflow-y-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-800/90 sticky top-0 z-10 text-slate-300 font-semibold border-b border-slate-700" id="tableHeader">
+                            <!-- Dynamic Headers -->
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300 font-normal" id="tableBody">
+                            <!-- Dynamic Rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+                    <div id="tablePaginationInfo">0개 항목 중 0 - 0 표시</div>
+                    <div class="flex items-center space-x-2">
+                        <button id="prevPageBtn" onclick="changePage(-1)" disabled class="p-1.5 px-3 rounded bg-slate-800 border border-slate-700 disabled:opacity-40 hover:bg-slate-700">
+                            <i class="fas fa-chevron-left mr-1"></i> 이전
+                        </button>
+                        <span id="currentPageDisplay" class="font-medium text-slate-200 px-2">1 / 1</span>
+                        <button id="nextPageBtn" onclick="changePage(1)" disabled class="p-1.5 px-3 rounded bg-slate-800 border border-slate-700 disabled:opacity-40 hover:bg-slate-700">
+                            다음 <i class="fas fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW 5: INTEGRATED REPORT GENERATOR -->
+        <!-- ========================================== -->
+        <div id="view-report" class="hidden space-y-6">
+
+            <section class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fas fa-file-contract text-purple-400"></i>
+                        통합 마케팅 전략 & 데이터 종합 보고서
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">STP 전략, 4P 마케팅 믹스 및 데이터 요약을 하나의 정식 문서로 조합합니다.</p>
+                </div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="exportHTML()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                        <i class="fas fa-code"></i> HTML 다운로드
+                    </button>
+                    <button onclick="exportMarkdown()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 flex items-center gap-1.5">
+                        <i class="fa-brands fa-markdown text-sm"></i> 마크다운 다운로드
+                    </button>
+                    <button onclick="copyMarkdown()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium flex items-center gap-1.5">
+                        <i class="far fa-copy"></i> 복사
+                    </button>
+                    <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium flex items-center gap-1.5">
+                        <i class="fas fa-print"></i> 인쇄 / PDF
+                    </button>
+                </div>
+            </section>
+
+            <!-- Report Live Preview Container -->
+            <section class="glass-card rounded-2xl p-6 md:p-8 space-y-6 bg-slate-900/60" id="integratedReportPreview">
+                <!-- Dynamically populated via JS -->
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Google Sheet Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+        <div class="glass-card rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-700 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-cog text-blue-400"></i> 구글 시트 연동 설정
+                </h3>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">구글 시트 URL 또는 ID</label>
+                    <input type="text" id="sheetIdInput" placeholder="https://docs.google.com/spreadsheets/d/1-8zGVGD9o65MTQtJzwMZDRlkNocCi-ciYwGYPkozKG8/edit" 
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:outline-none focus:border-blue-500 font-mono">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">시트 탭 이름 (선택사항)</label>
+                    <input type="text" id="sheetNameInput" placeholder="예: Sheet1 또는 시트1" 
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-slate-200 focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+                <button onclick="useDemoDataset()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs">
+                    데모 데이터 사용
+                </button>
+                <button onclick="saveSettings()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30">
+                    저장 및 연동하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Export Modal -->
+    <div id="previewModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+        <div class="glass-card rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-700 overflow-hidden">
+            <div class="bg-slate-900 px-6 py-4 flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-file-contract text-indigo-400 text-xl"></i>
+                    <h3 class="text-base font-bold text-white">마케팅 전략 보고서 내보내기</h3>
+                </div>
+                <button onclick="closePreviewModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div id="modalReportContent" class="p-6 md:p-8 overflow-y-auto space-y-6 text-slate-200 bg-slate-900/60 font-sans text-xs leading-relaxed">
+                <!-- Dynamic Content -->
+            </div>
+
+            <div class="bg-slate-900/90 px-6 py-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                <span class="text-xs text-slate-400">원하는 문서 형식으로 내보내세요.</span>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportHTML()" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                        <i class="fas fa-code"></i> HTML 다운로드
+                    </button>
+                    <button onclick="exportMarkdown()" class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md shadow-emerald-600/20 flex items-center gap-1.5">
+                        <i class="fa-brands fa-markdown text-sm"></i> 마크다운 다운로드
+                    </button>
+                    <button onclick="copyMarkdown()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium flex items-center gap-1.5">
+                        <i class="far fa-copy"></i> 복사
+                    </button>
+                    <button onclick="window.print()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium flex items-center gap-1.5">
+                        <i class="fas fa-print"></i> 인쇄 / PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+        <div class="glass-card rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-700 space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-white" id="confirmModalTitle">확인</h4>
+                    <p class="text-xs text-slate-400 mt-0.5" id="confirmModalMsg">계속 진행하시겠습니까?</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2">
+                <button onclick="closeConfirmModal(false)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium">취소</button>
+                <button onclick="closeConfirmModal(true)" class="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold">실행</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none no-print"></div>
+
+    <script>
+        const STORAGE_KEY = 'MARKETING_STRATEGY_HUB_DATA_V3.5';
+
+        let pendingConfirmCallback = null;
+        let scatterChartInstance = null;
+        let radarChartInstance = null;
+
+        let currentSheetId = '1-8zGVGD9o65MTQtJzwMZDRlkNocCi-ciYwGYPkozKG8';
+        let currentSheetName = '';
+        let rawHeaders = [];
+        let rawRows = [];
+        let filteredRows = [];
+        let currentPage = 1;
+        const pageSize = 8;
+
+        let numericColIndices = [];
+        let stringColIndices = [];
+
+        let barChartInstance = null;
+        let doughnutChartInstance = null;
+        let lineChartInstance = null;
+        let itemGridChartInstances = [];
+
+        const SAMPLE_DATA = {
+            headers: ['프로젝트/품목', '분류', '목표 수량', '달성 수량', '달성률(%)', '담당 부서', '상태'],
+            rows: [
+                ['AI 대시보드 개발', 'IT/소프트웨어', 120, 115, 95.8, '개발 1팀', '진행중'],
+                ['구글 시트 자동화', '데이터 솔루션', 85, 85, 100.0, '데이터팀', '완료'],
+                ['클라우드 마이그레이션', '인프라', 50, 42, 84.0, '인프라팀', '진행중'],
+                ['고객 지원 시스템 개선', '서비스', 200, 180, 90.0, 'CS팀', '완료'],
+                ['보안 취약점 점검', '보안', 30, 30, 100.0, '보안팀', '완료'],
+                ['신규 모바일 앱 디자인', '디자인', 90, 65, 72.2, '디자인팀', '진행중'],
+                ['영업 CRM 파이프라인 구축', '영업', 150, 130, 86.7, '영업팀', '진행중'],
+                ['글로벌 마케팅 캠페인', '마케팅', 300, 290, 96.7, '마케팅팀', '완료'],
+                ['데이터베이스 최적화', 'IT/소프트웨어', 40, 38, 95.0, '개발 2팀', '완료'],
+                ['직원 역량 강화 교육', 'HR', 100, 92, 92.0, '인사팀', '완료']
+            ]
+        };
+
+        const stpFields = [
+            'brand-name', 'brand-category', 'brand-goal',
+            'seg-demo', 'seg-geo', 'seg-psycho', 'seg-behavior',
+            'target-primary', 'target-persona', 'target-market', 'target-strategy',
+            'pos-statement', 'pos-value', 'pos-diff', 'pos-slogan'
+        ];
+
+        const p4Fields = [
+            'p-prod-core', 'p-prod-spec', 'p-prod-package', 'p-prod-service',
+            'p-price-strategy', 'p-price-discount', 'p-price-margin', 'p-price-compare',
+            'p-place-online', 'p-place-offline', 'p-place-logistics', 'p-place-partner',
+            'p-promo-ad', 'p-promo-sns', 'p-promo-influencer', 'p-promo-event'
+        ];
+
+        const unifiedPresets = {
+            saas: {
+                'brand-name': '알파SaaS (AlphaSaaS)',
+                'brand-category': 'B2B AI 생성형 업무 자동화 솔루션',
+                'brand-goal': '출시 1년 내 ARR 20억 달성 및 유료 전환율 15%',
+                'seg-demo': '20~40대 직장인, IT 및 사무/마케팅 직군, 월소득 300만 원 이상.',
+                'seg-geo': '수도권 테크 hub 및 전국 주요 IT 기업 근무자.',
+                'seg-psycho': '업무 효율성에 집착하는 스마트 워커, 얼리아답터 성향.',
+                'seg-behavior': '반복 리포팅 업무에 일 2시간 이상을 소모하는 헤비 유저.',
+                'target-primary': '스타트업 및 중소기업의 마케팅/영업/기획 부서장 및 실무자.',
+                'target-persona': '32세 이팀장 - 매주 수작업 데이터 정리에 지쳐 자동화 도구가 절실함.',
+                'target-market': '국내 B2B SaaS 시장 연 25% 고성장 중, 잠재 시장 2,000억 원.',
+                'target-strategy': 'Focus Strategy - 마케팅 리포팅 자동화 틈새 시장 집중 선점.',
+                'pos-statement': '반복 업무에 지친 마케터에게 알파SaaS는 1분 만에 완벽한 리포트를 완성하는 AI 솔루션이다.',
+                'pos-value': '복잡한 세팅 없이 기존 구글 시트 및 메타/네이버 광고 계정과 1초 연동.',
+                'pos-diff': '해외 비싼 파워BI/Tableau 대비 70% 저렴하면서 한글 지원 완벽.',
+                'pos-slogan': '데이터 분석, 클릭 한 번으로 퇴근을 앞당기다.',
+                'p-prod-core': 'AI 기반 데이터 시각화 및 자동 리포팅 솔루션. 드래그앤드롭 차트 생성.',
+                'p-prod-spec': '베이직, 프로, 엔터프라이즈 3개 계정 요금제. API 및 Slack/Teams 연동.',
+                'p-prod-package': '클라우드 웹 SaaS 앱. 브라우저 기반 온보딩 가이드 및 직관적인 UI/UX.',
+                'p-prod-service': '24/7 기술 지원, 엔터프라이즈 고객 전담 CSM 배치.',
+                'p-price-strategy': '구독형 층위별 가격 정책 (Freemium + Tiered Pricing).',
+                'p-price-discount': '연간 결제 시 20% 할인, 14일 무료 체험 기간 제공.',
+                'p-price-margin': 'SaaS 특성상 매출 원가율 15% 미만 유지, LTV/CAC 비율 3.5 이상.',
+                'p-price-compare': '글로벌 경쟁사 대비 40% 저렴하면서 한국어 맞춤 지원.',
+                'p-place-online': '공식 세일즈 웹사이트(SEO 최적화), 구글 워크스페이스 마켓플레이스.',
+                'p-place-offline': 'B2B IT 박람회 부스 참여 및 테크 세미나 개최.',
+                'p-place-logistics': 'AWS 한국 리전 기반의 99.99% 업타임 클라우드 인프라.',
+                'p-place-partner': 'B2B IT 컨설팅 회사 및 세무/회계 SaaS 연동 파트너십.',
+                'p-promo-ad': '구글 검색광고(SA), 링크드인 B2B 타겟팅 광고 및 메타 리타겟팅.',
+                'p-promo-sns': 'IT 트렌드 전자책(eBook) 발행 및 링크드인 아티클 연재.',
+                'p-promo-influencer': '테크 유튜버 B2B 웨비나 진행 및 솔루션 시연 스폰서십.',
+                'p-promo-event': '웨비나 참가자 1개월 무료 체험 쿠폰 및 1:1 맞춤 데이터 진단.'
+            },
+            coffee: {
+                'brand-name': '블루웨이브 로스터스 (BlueWave Coffee)',
+                'brand-category': '프리미엄 D2C 스페셜티 싱글오리진 원두',
+                'brand-goal': '정기구독 고객 1만 명 달성 및 브랜드 카페 3호점 진출',
+                'seg-demo': '25~45세 남녀, 미식과 홈카페에 관심 높은 가치 소비 계층.',
+                'seg-geo': '전국 주요 도시 아파트 단지 및 감성 상권 거주자.',
+                'seg-psycho': '취향을 중요시하며, 친환경 및 지속가능한 소비 추구.',
+                'seg-behavior': '매일 1~2잔의 커피를 직접 드립하여 마시는 취향 소비층.',
+                'target-primary': '집에서도 카페 수준의 스페셜티 커피를 맛보고 싶어하는 홈카페족.',
+                'target-persona': '29세 박민지 - 홈카페 인스타그램을 운영하며 신선한 원두를 매주 찾음.',
+                'target-market': '국내 홈카페 원두 시장 약 5,000억 원 규모, 연 15% 성장.',
+                'target-strategy': 'D2C 정기구독 중심의 차별화 틈새 마케팅 전략.',
+                'pos-statement': '커피 취향이 확실한 에피큐어에게 블루웨이브는 당일 로스팅 발송되는 가장 신선한 원두이다.',
+                'pos-value': '공정무역 100% 싱글오리진, 산지 직수입으로 당일 로스팅 배송.',
+                'pos-diff': '일반 커머셜 원두 대비 압도적인 테이스팅 노트와 100% 생분해 봉투.',
+                'pos-slogan': '당신의 아침을 채우는 바다 건너 가장 신선한 첫 잔.',
+                'p-prod-core': '지속가능한 공정무역 원두만을 직수입하여 당일 로스팅 발송하는 스페셜티 원두.',
+                'p-prod-spec': '원두 200g/500g, 드립백 10개입 세트, 캡슐커피 라인업. 테이스팅 카드 포함.',
+                'p-prod-package': '아로마 밸브가 적용된 100% 생분해성 친환경 원두 봉투.',
+                'p-prod-service': '커피 취향 테스트를 통한 원두 추천 서비스, 첫 구매 부적합 시 100% 교환.',
+                'p-price-strategy': '가치 중심 프라이싱 (Value-Based Pricing). 스페셜티 가격대.',
+                'p-price-discount': '첫 정기구독 시 드립백 세트 증정, 정기구독 지속 시 10% 자동 할인.',
+                'p-price-margin': '직수입을 통한 생두 원가 절감(원가율 30% 선), 정기구독 마진 확보.',
+                'p-price-compare': '고급 스페셜티 품질 유지하되 D2C 직접 판매로 중간 유통 마진 제거.',
+                'p-place-online': '자사몰 D2C 중심 운영, 네이버 스마트스토어 및 29CM 입점.',
+                'p-place-offline': '성수동 감성 플래그십 쇼룸 및 로스터리 카페 운영.',
+                'p-place-logistics': '오후 1시 이전 주문 건 당일 로스팅 및 당일 택배 발송 체계.',
+                'p-place-partner': '라이프스타일 편집숍 및 독립서점 내 굿즈 콜라보.',
+                'p-promo-ad': '인스타그램 릴스 비주얼 중심 광고, 감성 라이프스타일 숏폼 영상 광고.',
+                'p-promo-sns': '홈카페 레시피, 커피 원산지 이야기 유튜브 쇼츠 연재.',
+                'p-promo-influencer': '라이프스타일/인테리어 인플루언서 협찬 및 홈카페 챌린지.',
+                'p-promo-event': '홈카페 앰버서더 모집, 친구 추천 시 추천인/피추천인 적립금.'
+            }
+        };
+
+        window.onload = function() {
+            loadFromLocalStorage();
+            updateAllProgress();
+            renderMapCharts();
+            loadDashboardData();
+        };
+
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            const colors = {
+                success: 'bg-emerald-600 text-white shadow-emerald-900/50',
+                error: 'bg-rose-600 text-white shadow-rose-900/50',
+                info: 'bg-indigo-600 text-white shadow-indigo-900/50',
+                amber: 'bg-amber-600 text-white shadow-amber-900/50'
+            };
+
+            toast.className = `pointer-events-auto px-4 py-2.5 rounded-xl font-medium text-xs shadow-xl flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0 ${colors[type] || colors.info}`;
+            toast.innerHTML = `<i class="fas fa-info-circle"></i> <span>${msg}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function showConfirmModal(title, msg, onConfirm) {
+            document.getElementById('confirmModalTitle').innerText = title;
+            document.getElementById('confirmModalMsg').innerText = msg;
+            pendingConfirmCallback = onConfirm;
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal(accepted) {
+            document.getElementById('confirmModal').classList.add('hidden');
+            if (accepted && typeof pendingConfirmCallback === 'function') {
+                pendingConfirmCallback();
+            }
+            pendingConfirmCallback = null;
+        }
+
+        function switchTab(tabName) {
+            const hubView = document.getElementById('view-hub');
+            const stpView = document.getElementById('view-stp');
+            const p4View = document.getElementById('view-4p');
+            const sheetView = document.getElementById('view-sheet');
+            const reportView = document.getElementById('view-report');
+
+            const hubBtn = document.getElementById('tab-hub-btn');
+            const stpBtn = document.getElementById('tab-stp-btn');
+            const p4Btn = document.getElementById('tab-4p-btn');
+            const sheetBtn = document.getElementById('tab-sheet-btn');
+            const reportBtn = document.getElementById('tab-report-btn');
+
+            [hubView, stpView, p4View, sheetView, reportView].forEach(v => v.classList.add('hidden'));
+            [hubBtn, stpBtn, p4Btn, sheetBtn, reportBtn].forEach(b => {
+                b.classList.remove('tab-active');
+                b.classList.add('text-slate-400');
+            });
+
+            if (tabName === 'hub') {
+                hubView.classList.remove('hidden');
+                hubBtn.classList.add('tab-active');
+            } else if (tabName === 'stp') {
+                stpView.classList.remove('hidden');
+                stpBtn.classList.add('tab-active');
+                renderMapCharts();
+            } else if (tabName === '4p') {
+                p4View.classList.remove('hidden');
+                p4Btn.classList.add('tab-active');
+            } else if (tabName === 'sheet') {
+                sheetView.classList.remove('hidden');
+                sheetBtn.classList.add('tab-active');
+                renderCharts();
+                renderItemGrid();
+                renderTable();
+            } else if (tabName === 'report') {
+                reportView.classList.remove('hidden');
+                reportBtn.classList.add('tab-active');
+                renderIntegratedReportPreview();
+            }
+        }
+
+        function updateAllProgress() {
+            // STP Count
+            let stpCount = 0;
+            stpFields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.value.trim().length > 0) stpCount++;
+            });
+            const stpPercent = Math.round((stpCount / stpFields.length) * 100);
+
+            // 4P Count
+            let p4Count = 0;
+            p4Fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.value.trim().length > 0) p4Count++;
+            });
+            const p4Percent = Math.round((p4Count / p4Fields.length) * 100);
+
+            // Hub Gauges
+            document.getElementById('hubStpPercent').innerText = `${stpPercent}%`;
+            document.getElementById('hubStpCount').innerText = `${stpCount}/${stpFields.length} 항목`;
+            document.getElementById('hubStpBar').style.width = `${stpPercent}%`;
+
+            document.getElementById('hub4pPercent').innerText = `${p4Percent}%`;
+            document.getElementById('hub4pCount').innerText = `${p4Count}/${p4Fields.length} 항목`;
+            document.getElementById('hub4pBar').style.width = `${p4Percent}%`;
+
+            // STP Sub badges
+            updateGroupStatus('seg', ['seg-demo', 'seg-geo', 'seg-psycho', 'seg-behavior'], 'badge-seg');
+            updateGroupStatus('target', ['target-primary', 'target-persona', 'target-market', 'target-strategy'], 'badge-target');
+            updateGroupStatus('pos', ['pos-statement', 'pos-value', 'pos-diff', 'pos-slogan'], 'badge-pos');
+
+            // 4P Sub badges
+            updateGroupStatus('4p-prod', ['p-prod-core', 'p-prod-spec', 'p-prod-package', 'p-prod-service'], 'badge-4p-prod');
+            updateGroupStatus('4p-price', ['p-price-strategy', 'p-price-discount', 'p-price-margin', 'p-price-compare'], 'badge-4p-price');
+            updateGroupStatus('4p-place', ['p-place-online', 'p-place-offline', 'p-place-logistics', 'p-place-partner'], 'badge-4p-place');
+            updateGroupStatus('4p-promo', ['p-promo-ad', 'p-promo-sns', 'p-promo-influencer', 'p-promo-event'], 'badge-4p-promo');
+
+            saveToLocalStorage();
+        }
+
+        function updateGroupStatus(groupKey, fieldsArr, badgeId) {
+            let count = 0;
+            fieldsArr.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.value.trim().length > 0) count++;
+            });
+
+            const badgeEl = document.getElementById(badgeId);
+            if (!badgeEl) return;
+
+            if (count === 0) {
+                badgeEl.innerText = '미작성';
+                badgeEl.className = 'bg-white/20 text-xs px-2.5 py-1 rounded-full font-semibold text-slate-300';
+            } else if (count < fieldsArr.length) {
+                badgeEl.innerText = `작성 중 (${count}/${fieldsArr.length})`;
+                badgeEl.className = 'bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-full font-semibold border border-amber-500/30';
+            } else {
+                badgeEl.innerText = '작성 완료';
+                badgeEl.className = 'bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-full font-semibold border border-emerald-500/30';
+            }
+        }
+
+        function saveToLocalStorage() {
+            const data = {};
+            [...stpFields, ...p4Fields].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) data[id] = el.value;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            try {
+                const data = JSON.parse(saved);
+                [...stpFields, ...p4Fields].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && data[id] !== undefined) el.value = data[id];
+                });
+            } catch (e) {
+                console.error("Local storage load error:", e);
+            }
+        }
+
+        function loadPreset(key) {
+            if (!key || !unifiedPresets[key]) return;
+            const data = unifiedPresets[key];
+
+            Object.keys(data).forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                if (input) input.value = data[fieldId];
+            });
+
+            updateAllProgress();
+            showToast('통합 프리셋 템플릿을 성공적으로 로드했습니다.', 'success');
+        }
+
+        function saveDraft() {
+            saveToLocalStorage();
+            showToast('현재 전략 작성 내용이 성공적으로 저장되었습니다.', 'success');
+        }
+
+        function confirmClearAllFields() {
+            showConfirmModal('모든 프레임워크 초기화', '작성 중인 모든 STP 및 4P 마케팅 전략 내용이 삭제됩니다. 계속하시겠습니까?', () => {
+                [...stpFields, ...p4Fields].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                });
+                document.getElementById('preset-select').value = '';
+                localStorage.removeItem(STORAGE_KEY);
+                updateAllProgress();
+                showToast('모든 전략 항목이 초기화되었습니다.', 'amber');
+            });
+        }
+
+        function updateMapSliderValues() {
+            document.getElementById('val-our-x').innerText = document.getElementById('pos-our-x').value;
+            document.getElementById('val-our-y').innerText = document.getElementById('pos-our-y').value;
+            document.getElementById('val-compA-x').innerText = document.getElementById('pos-compA-x').value;
+            document.getElementById('val-compA-y').innerText = document.getElementById('pos-compA-y').value;
+            document.getElementById('val-compB-x').innerText = document.getElementById('pos-compB-x').value;
+            document.getElementById('val-compB-y').innerText = document.getElementById('pos-compB-y').value;
+
+            renderMapCharts();
+        }
+
+        function renderMapCharts() {
+            if (typeof Chart === 'undefined') return;
+
+            const brandName = document.getElementById('brand-name')?.value.trim() || '자사 브랜드';
+
+            const xMinLabel = document.getElementById('map-x-min')?.value || '저가격';
+            const xMaxLabel = document.getElementById('map-x-max')?.value || '고가격';
+            const yMinLabel = document.getElementById('map-y-min')?.value || '기능 복잡함';
+            const yMaxLabel = document.getElementById('map-y-max')?.value || '사용 쉬움';
+
+            const ourX = Number(document.getElementById('pos-our-x')?.value || 5);
+            const ourY = Number(document.getElementById('pos-our-y')?.value || 8);
+            const compAX = Number(document.getElementById('pos-compA-x')?.value || 8);
+            const compAY = Number(document.getElementById('pos-compA-y')?.value || -4);
+            const compBX = Number(document.getElementById('pos-compB-x')?.value || -6);
+            const compBY = Number(document.getElementById('pos-compB-y')?.value || -2);
+
+            const scatterCanvas = document.getElementById('perceptualScatterChart');
+            if (scatterCanvas) {
+                const ctx = scatterCanvas.getContext('2d');
+                if (scatterChartInstance) scatterChartInstance.destroy();
+
+                scatterChartInstance = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [
+                            {
+                                label: `${brandName} (Target)`,
+                                data: [{ x: ourX, y: ourY }],
+                                backgroundColor: '#6366f1',
+                                borderColor: '#818cf8',
+                                pointRadius: 10,
+                                pointHoverRadius: 12,
+                            },
+                            {
+                                label: '경쟁사 A',
+                                data: [{ x: compAX, y: compAY }],
+                                backgroundColor: '#f59e0b',
+                                borderColor: '#fbbf24',
+                                pointRadius: 8,
+                                pointHoverRadius: 10,
+                            },
+                            {
+                                label: '경쟁사 B',
+                                data: [{ x: compBX, y: compBY }],
+                                backgroundColor: '#f43f5e',
+                                borderColor: '#fb7185',
+                                pointRadius: 8,
+                                pointHoverRadius: 10,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                min: -10,
+                                max: 10,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)', lineWidth: 1 },
+                                title: { display: true, text: `← ${xMinLabel} | ${xMaxLabel} →`, color: '#cbd5e1', font: { size: 12, weight: 'bold' } },
+                                ticks: { color: '#94a3b8' }
+                            },
+                            y: {
+                                min: -10,
+                                max: 10,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)', lineWidth: 1 },
+                                title: { display: true, text: `← ${yMinLabel} | ${yMaxLabel} →`, color: '#cbd5e1', font: { size: 12, weight: 'bold' } },
+                                ticks: { color: '#94a3b8' }
+                            }
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#f8fafc', font: { size: 11 } } }
+                        }
+                    }
+                });
+            }
+
+            const radarCanvas = document.getElementById('competitorRadarChart');
+            if (radarCanvas) {
+                const ctx = radarCanvas.getContext('2d');
+                if (radarChartInstance) radarChartInstance.destroy();
+
+                radarChartInstance = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['가격 경쟁력', '품질 & 성능', '기술 혁신성', '사용 편의성', '고객 서비스'],
+                        datasets: [
+                            {
+                                label: brandName,
+                                data: [80, 95, 90, 95, 85],
+                                backgroundColor: 'rgba(99, 102, 241, 0.25)',
+                                borderColor: '#6366f1',
+                                pointBackgroundColor: '#6366f1'
+                            },
+                            {
+                                label: '경쟁사 평균',
+                                data: [65, 75, 60, 55, 70],
+                                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                                borderColor: '#f59e0b',
+                                pointBackgroundColor: '#f59e0b'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                pointLabels: { color: '#cbd5e1', font: { size: 11 } },
+                                ticks: { backdropColor: 'transparent', color: '#94a3b8' }
+                            }
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#f8fafc', font: { size: 11 } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                let cleanId = extractSheetId(currentSheetId);
+                const url = `https://docs.google.com/spreadsheets/d/${cleanId}/gviz/tq?tqx=out:json${currentSheetName ? `&sheet=${encodeURIComponent(currentSheetName)}` : ''}`;
+                
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP 오류 (${response.status})`);
+
+                const text = await response.text();
+                const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?/);
+                if (!jsonMatch) throw new Error('구글 시트 데이터 형식이 아닙니다.');
+
+                const json = JSON.parse(jsonMatch[1]);
+                if (json.status === 'error') throw new Error(json.errors[0]?.detailed_message || '구글 시트 읽기 오류');
+
+                const table = json.table;
+                let headers = table.cols.map((col, idx) => (col.label && col.label.trim() !== '') ? col.label.trim() : `컬럼 ${idx + 1}`);
+
+                let rows = table.rows.map(r => r.c.map(cell => {
+                    if (!cell) return '';
+                    if (cell.v !== undefined && cell.v !== null) return cell.v;
+                    return cell.f || '';
+                }));
+
+                if (table.cols.every(c => !c.label || c.label.trim() === '') && rows.length > 0) {
+                    headers = rows[0].map((v, i) => String(v) || `컬럼 ${i + 1}`);
+                    rows = rows.slice(1);
+                }
+
+                rawHeaders = headers;
+                rawRows = rows;
+                processAndRenderDashboard();
+
+            } catch (err) {
+                console.warn('Google Sheet Fetch Fallback:', err);
+                rawHeaders = SAMPLE_DATA.headers;
+                rawRows = SAMPLE_DATA.rows;
+                processAndRenderDashboard();
+            }
+        }
+
+        function extractSheetId(input) {
+            if (!input) return '1-8zGVGD9o65MTQtJzwMZDRlkNocCi-ciYwGYPkozKG8';
+            const match = input.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            return match ? match[1] : input.trim();
+        }
+
+        function processAndRenderDashboard() {
+            filteredRows = [...rawRows];
+            currentPage = 1;
+
+            numericColIndices = [];
+            stringColIndices = [];
+
+            if (rawHeaders.length > 0 && rawRows.length > 0) {
+                for (let colIdx = 0; colIdx < rawHeaders.length; colIdx++) {
+                    let numericCount = 0;
+                    let totalCount = 0;
+
+                    for (let rowIdx = 0; rowIdx < rawRows.length; rowIdx++) {
+                        const val = rawRows[rowIdx][colIdx];
+                        if (val !== null && val !== '' && val !== undefined) {
+                            totalCount++;
+                            const num = Number(val);
+                            if (!isNaN(num)) numericCount++;
+                        }
+                    }
+
+                    if (totalCount > 0 && (numericCount / totalCount) >= 0.6) {
+                        numericColIndices.push(colIdx);
+                    } else {
+                        stringColIndices.push(colIdx);
+                    }
+                }
+            }
+
+            populateSelectOptions();
+            renderKPIs();
+            renderInfographicSummary();
+            renderCharts();
+            renderItemGrid();
+            renderTable();
+
+            // Update Hub sheet stats
+            document.getElementById('hubSheetRecordCount').innerText = rawRows.length.toLocaleString();
+            document.getElementById('hubSheetSub').innerText = `${rawHeaders.length}개 열 수집 완료`;
+        }
+
+        function populateSelectOptions() {
+            const chart1Select = document.getElementById('chart1MetricSelect');
+            if (chart1Select) {
+                chart1Select.innerHTML = '';
+                numericColIndices.forEach(idx => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.innerText = rawHeaders[idx];
+                    chart1Select.appendChild(opt);
+                });
+            }
+
+            const chart2Select = document.getElementById('chart2CategorySelect');
+            if (chart2Select) {
+                chart2Select.innerHTML = '';
+                stringColIndices.forEach(idx => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.innerText = rawHeaders[idx];
+                    chart2Select.appendChild(opt);
+                });
+            }
+        }
+
+        function renderKPIs() {
+            document.getElementById('kpiTotalRecords').innerText = rawRows.length.toLocaleString();
+            document.getElementById('kpiRecordsSub').innerText = `${rawHeaders.length}개 항목 열 데이터`;
+
+            if (numericColIndices.length > 0) {
+                const primaryColIdx = numericColIndices[0];
+                let sum = 0;
+                rawRows.forEach(r => {
+                    const val = Number(r[primaryColIdx]);
+                    if (!isNaN(val)) sum += val;
+                });
+
+                document.getElementById('kpiMetric1Title').innerText = `${rawHeaders[primaryColIdx]} 총합`;
+                document.getElementById('kpiMetric1Value').innerText = formatNumber(sum);
+            }
+
+            if (numericColIndices.length > 0) {
+                const secColIdx = numericColIndices[1] !== undefined ? numericColIndices[1] : numericColIndices[0];
+                let sum = 0, count = 0;
+                rawRows.forEach(r => {
+                    const val = Number(r[secColIdx]);
+                    if (!isNaN(val)) { sum += val; count++; }
+                });
+                const avg = count > 0 ? (sum / count) : 0;
+                document.getElementById('kpiMetric2Title').innerText = `${rawHeaders[secColIdx]} 평균`;
+                document.getElementById('kpiMetric2Value').innerText = avg.toLocaleString(undefined, { maximumFractionDigits: 1 });
+            }
+
+            if (stringColIndices.length > 0) {
+                const catIdx = stringColIndices[0];
+                const counts = {};
+                rawRows.forEach(r => {
+                    const cat = String(r[catIdx] || '기타').trim();
+                    if (cat) counts[cat] = (counts[cat] || 0) + 1;
+                });
+
+                let topCat = '-', maxCount = 0;
+                Object.keys(counts).forEach(c => {
+                    if (counts[c] > maxCount) { maxCount = counts[c]; topCat = c; }
+                });
+
+                document.getElementById('kpiTopCategoryTitle').innerText = `${rawHeaders[catIdx]} 최다 항목`;
+                document.getElementById('kpiTopCategoryValue').innerText = topCat;
+                document.getElementById('kpiTopCategoryCount').innerText = `${maxCount}건`;
+            }
+        }
+
+        function renderInfographicSummary() {
+            document.getElementById('dataColumnsCount').innerText = `${rawHeaders.length}개 항목 열`;
+            const container = document.getElementById('distributionBarsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (stringColIndices.length > 0) {
+                const catIdx = stringColIndices[0];
+                const counts = {};
+                rawRows.forEach(r => {
+                    const val = String(r[catIdx] || '기타').trim();
+                    if (val) counts[val] = (counts[val] || 0) + 1;
+                });
+
+                const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3);
+                const total = rawRows.length || 1;
+                const colors = ['bg-blue-500', 'bg-indigo-500', 'bg-emerald-500'];
+
+                sorted.forEach(([label, count], index) => {
+                    const percentage = Math.round((count / total) * 100);
+                    container.innerHTML += `
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="font-medium text-slate-200">${label}</span>
+                                <span class="text-slate-400 font-mono">${count}건 (${percentage}%)</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                                <div class="${colors[index % colors.length]} h-2 rounded-full" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function renderCharts() {
+            if (rawRows.length === 0) return;
+
+            const numIdx = Number(document.getElementById('chart1MetricSelect')?.value || numericColIndices[0] || 0);
+            const labelIdx = stringColIndices[0] !== undefined ? stringColIndices[0] : 0;
+
+            const barLabels = rawRows.slice(0, 12).map(r => String(r[labelIdx] || ''));
+            const barData = rawRows.slice(0, 12).map(r => Number(r[numIdx]) || 0);
+
+            const barCanvas = document.getElementById('mainBarChart');
+            if (barCanvas) {
+                const ctx = barCanvas.getContext('2d');
+                if (barChartInstance) barChartInstance.destroy();
+
+                barChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: barLabels,
+                        datasets: [{
+                            label: rawHeaders[numIdx] || '수치',
+                            data: barData,
+                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                            borderColor: '#6366f1',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }
+                        }
+                    }
+                });
+            }
+
+            const catIdx = Number(document.getElementById('chart2CategorySelect')?.value || stringColIndices[0] || 0);
+            const catCounts = {};
+            rawRows.forEach(r => {
+                const val = String(r[catIdx] || '기타').trim();
+                if (val) catCounts[val] = (catCounts[val] || 0) + 1;
+            });
+
+            const topCatPairs = Object.entries(catCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+
+            const doughnutCanvas = document.getElementById('shareDoughnutChart');
+            if (doughnutCanvas) {
+                const ctx = doughnutCanvas.getContext('2d');
+                if (doughnutChartInstance) doughnutChartInstance.destroy();
+
+                doughnutChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: topCatPairs.map(p => p[0]),
+                        datasets: [{
+                            data: topCatPairs.map(p => p[1]),
+                            backgroundColor: ['#6366f1', '#10b981', '#8b5cf6', '#f59e0b', '#ec4899', '#06b6d4']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'right', labels: { color: '#cbd5e1' } } }
+                    }
+                });
+            }
+
+            const lineCanvas = document.getElementById('lineTrendChart');
+            if (lineCanvas) {
+                const ctx = lineCanvas.getContext('2d');
+                if (lineChartInstance) lineChartInstance.destroy();
+
+                lineChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: rawRows.slice(0, 15).map((r, idx) => `item #${idx + 1}`),
+                        datasets: [{
+                            data: rawRows.slice(0, 15).map(r => Number(r[numIdx]) || 0),
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.35
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: '#94a3b8' } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8' } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function renderItemGrid() {
+            const container = document.getElementById('itemGridContainer');
+            if (!container) return;
+
+            itemGridChartInstances.forEach(inst => { if (inst) inst.destroy(); });
+            itemGridChartInstances = [];
+            container.innerHTML = '';
+
+            const top9Rows = rawRows.slice(0, 9);
+            const nameIdx = stringColIndices[0] !== undefined ? stringColIndices[0] : 0;
+            const primaryNumIdx = numericColIndices[0] !== undefined ? numericColIndices[0] : 1;
+
+            top9Rows.forEach((row, idx) => {
+                const itemName = String(row[nameIdx] || `항목 #${idx + 1}`);
+                const mainVal = Number(row[primaryNumIdx]) || 0;
+                const cardId = `itemCardCanvas_${idx}`;
+
+                container.innerHTML += `
+                    <div class="glass-card-hover rounded-xl p-4 bg-slate-800/60 border border-slate-700/60 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold text-white truncate" title="${itemName}">${itemName}</h4>
+                            <span class="text-[11px] font-mono text-indigo-400 font-semibold">#0${idx + 1}</span>
+                        </div>
+                        <div class="text-xl font-extrabold text-white">${formatNumber(mainVal)}</div>
+                        <div class="w-full h-16 relative">
+                            <canvas id="${cardId}"></canvas>
+                        </div>
+                    </div>
+                `;
+            });
+
+            top9Rows.forEach((row, idx) => {
+                const canvas = document.getElementById(`itemCardCanvas_${idx}`);
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                const mainVal = Number(row[primaryNumIdx]) || 0;
+
+                const miniChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [String(row[nameIdx] || '항목')],
+                        datasets: [{ data: [mainVal], backgroundColor: '#6366f1', borderRadius: 4 }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { display: false }, y: { display: false } }
+                    }
+                });
+                itemGridChartInstances.push(miniChart);
+            });
+        }
+
+        function renderTable() {
+            const tableHeader = document.getElementById('tableHeader');
+            const tableBody = document.getElementById('tableBody');
+            if (!tableHeader || !tableBody) return;
+
+            tableHeader.innerHTML = '<tr>' + rawHeaders.map(h => `<th class="p-3 font-semibold text-slate-300 border-b border-slate-700">${h}</th>`).join('') + '</tr>';
+
+            const total = filteredRows.length;
+            const totalPages = Math.ceil(total / pageSize) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIdx = (currentPage - 1) * pageSize;
+            const pageRows = filteredRows.slice(startIdx, startIdx + pageSize);
+
+            tableBody.innerHTML = pageRows.map(row => {
+                return '<tr class="hover:bg-slate-800/40 transition-colors">' +
+                    row.map(cell => `<td class="p-3 text-slate-300 border-b border-slate-800/60 whitespace-nowrap">${String(cell || '')}</td>`).join('') +
+                    '</tr>';
+            }).join('');
+
+            document.getElementById('tablePaginationInfo').innerText = `${total}개 항목 중 ${total > 0 ? startIdx + 1 : 0} - ${Math.min(startIdx + pageSize, total)} 표시`;
+            document.getElementById('currentPageDisplay').innerText = `${currentPage} / ${totalPages}`;
+            document.getElementById('prevPageBtn').disabled = (currentPage <= 1);
+            document.getElementById('nextPageBtn').disabled = (currentPage >= totalPages);
+        }
+
+        function handleTableSearch() {
+            const query = document.getElementById('tableSearchInput')?.value.toLowerCase().trim() || '';
+            filteredRows = !query ? [...rawRows] : rawRows.filter(row => row.some(cell => String(cell).toLowerCase().includes(query)));
+            currentPage = 1;
+            renderTable();
+        }
+
+        function changePage(dir) {
+            currentPage += dir;
+            renderTable();
+        }
+
+        function exportToCSV() {
+            if (rawHeaders.length === 0) return;
+            let csv = '\uFEFF' + rawHeaders.map(h => `"${h}"`).join(',') + '\n';
+            filteredRows.forEach(row => { csv += row.map(cell => `"${String(cell)}"`).join(',') + '\n'; });
+            triggerDownload(csv, `marketing_data_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv;charset=utf-8;');
+            showToast('CSV 파일이 성공적으로 다운로드되었습니다.', 'success');
+        }
+
+        function generateMarkdownString() {
+            const brand = document.getElementById('brand-name').value.trim() || '미정 프로젝트';
+            const cat = document.getElementById('brand-category').value.trim() || '미설정 카테고리';
+            const goal = document.getElementById('brand-goal').value.trim() || '미설정 목표';
+            const date = new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            return `# 마케팅 전략 & 데이터 통합 보고서: ${brand}
+
+- **작성일자:** ${date}
+- **산업/카테고리:** ${cat}
+- **핵심 목표:** ${goal}
+
+---
+
+## 1. STP 마케팅 전략 (Segmentation & Targeting & Positioning)
+
+### 👥 시장 세분화 (Segmentation)
+- **인구통계:** ${document.getElementById('seg-demo').value.trim() || '*미작성*'}
+- **지리적:** ${document.getElementById('seg-geo').value.trim() || '*미작성*'}
+- **심리분석:** ${document.getElementById('seg-psycho').value.trim() || '*미작성*'}
+- **행동분석:** ${document.getElementById('seg-behavior').value.trim() || '*미작성*'}
+
+### 🎯 타겟 시장 선정 (Targeting)
+- **주목표 타겟:** ${document.getElementById('target-primary').value.trim() || '*미작성*'}
+- **타겟 페르소나:** ${document.getElementById('target-persona').value.trim() || '*미작성*'}
+- **시장 평가:** ${document.getElementById('target-market').value.trim() || '*미작성*'}
+- **타겟팅 전략:** ${document.getElementById('target-strategy').value.trim() || '*미작성*'}
+
+### 💬 포지셔닝 전략 (Positioning)
+- **포지셔닝 선언문:** ${document.getElementById('pos-statement').value.trim() || '*미작성*'}
+- **핵심 가치 제안:** ${document.getElementById('pos-value').value.trim() || '*미작성*'}
+- **차별화 포인트(POD):** ${document.getElementById('pos-diff').value.trim() || '*미작성*'}
+- **브랜드 슬로건:** ${document.getElementById('pos-slogan').value.trim() || '*미작성*'}
+
+---
+
+## 2. 4P 마케팅 믹스 (Product, Price, Place, Promotion)
+
+### 📦 Product (제품 전략)
+- **핵심 가치(USP):** ${document.getElementById('p-prod-core').value.trim() || '*미작성*'}
+- **스펙 & 라인업:** ${document.getElementById('p-prod-spec').value.trim() || '*미작성*'}
+- **패키징 & 디자인:** ${document.getElementById('p-prod-package').value.trim() || '*미작성*'}
+- **고객 서비스 & A/S:** ${document.getElementById('p-prod-service').value.trim() || '*미작성*'}
+
+### 💰 Price (가격 전략)
+- **가격 책정 전략:** ${document.getElementById('p-price-strategy').value.trim() || '*미작성*'}
+- **할인 & 프로모션:** ${document.getElementById('p-price-discount').value.trim() || '*미작성*'}
+- **원가 & 마진율:** ${document.getElementById('p-price-margin').value.trim() || '*미작성*'}
+- **경쟁사 가격 비교:** ${document.getElementById('p-price-compare').value.trim() || '*미작성*'}
+
+### 🏬 Place (유통 전략)
+- **온라인 채널:** ${document.getElementById('p-place-online').value.trim() || '*미작성*'}
+- **오프라인 채널:** ${document.getElementById('p-place-offline').value.trim() || '*미작성*'}
+- **물류 & 풀필먼트:** ${document.getElementById('p-place-logistics').value.trim() || '*미작성*'}
+- **유통 파트너십:** ${document.getElementById('p-place-partner').value.trim() || '*미작성*'}
+
+### 📢 Promotion (판촉 전략)
+- **광고 채널:** ${document.getElementById('p-promo-ad').value.trim() || '*미작성*'}
+- **SNS & 콘텐츠:** ${document.getElementById('p-promo-sns').value.trim() || '*미작성*'}
+- **인플루언서 바이럴:** ${document.getElementById('p-promo-influencer').value.trim() || '*미작성*'}
+- **이벤트 & 세일즈:** ${document.getElementById('p-promo-event').value.trim() || '*미작성*'}
+
+---
+
+## 3. 데이터 대시보드 시각화 요약
+- **전체 시트 레코드:** ${rawRows.length}건 수집됨
+- **데이터 분석 현황:** ${rawHeaders.join(', ')}
+`;
+        }
+
+        function renderIntegratedReportPreview() {
+            const container = document.getElementById('integratedReportPreview');
+            if (!container) return;
+            const md = generateMarkdownString();
+            if (typeof marked !== 'undefined' && marked.parse) {
+                container.innerHTML = marked.parse(md);
+            } else {
+                container.innerHTML = `<pre class="whitespace-pre-wrap">${md}</pre>`;
+            }
+        }
+
+        function openPreviewModal() {
+            const modal = document.getElementById('previewModal');
+            const content = document.getElementById('modalReportContent');
+            const md = generateMarkdownString();
+            if (typeof marked !== 'undefined' && marked.parse) {
+                content.innerHTML = marked.parse(md);
+            } else {
+                content.innerHTML = `<pre class="whitespace-pre-wrap">${md}</pre>`;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').classList.add('hidden');
+        }
+
+        function triggerDownload(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 100);
+        }
+
+        function exportHTML() {
+            const brand = document.getElementById('brand-name').value.trim() || '마케팅전략';
+            const md = generateMarkdownString();
+            const htmlContent = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>마케팅 전략 보고서 - ${brand}</title><script src="https://cdn.tailwindcss.com"><\/script></head><body class="p-8 bg-slate-950 text-slate-100 max-w-4xl mx-auto">${typeof marked !== 'undefined' ? marked.parse(md) : md}</body></html>`;
+            triggerDownload(htmlContent, `마케팅전략보고서_${brand.replace(/\s+/g, '_')}.html`, 'text/html;charset=utf-8');
+            showToast('HTML 보고서가 다운로드되었습니다.', 'success');
+        }
+
+        function exportMarkdown() {
+            const brand = document.getElementById('brand-name').value.trim() || '마케팅전략';
+            const md = generateMarkdownString();
+            triggerDownload(md, `마케팅전략보고서_${brand.replace(/\s+/g, '_')}.md`, 'text/markdown;charset=utf-8');
+            showToast('마크다운 보고서가 다운로드되었습니다.', 'success');
+        }
+
+        function copyMarkdown() {
+            const md = generateMarkdownString();
+            const textarea = document.createElement('textarea');
+            textarea.value = md;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('보고서가 클립보드에 복사되었습니다.', 'success');
+            } catch (err) {
+                showToast('클립보드 복사에 실패했습니다.', 'error');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function openSettingsModal() {
+            document.getElementById('sheetIdInput').value = currentSheetId;
+            document.getElementById('sheetNameInput').value = currentSheetName;
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function saveSettings() {
+            currentSheetId = extractSheetId(document.getElementById('sheetIdInput').value);
+            currentSheetName = document.getElementById('sheetNameInput').value.trim();
+            closeSettingsModal();
+            loadDashboardData();
+            showToast('구글 시트 연동 설정이 업데이트되었습니다.', 'success');
+        }
+
+        function useDemoDataset() {
+            closeSettingsModal();
+            rawHeaders = SAMPLE_DATA.headers;
+            rawRows = SAMPLE_DATA.rows;
+            processAndRenderDashboard();
+            showToast('데모 데이터셋을 로드했습니다.', 'info');
+        }
+
+        function formatNumber(num) {
+            if (num >= 100000000) return (num / 100000000).toFixed(1) + '억';
+            if (num >= 10000) return (num / 10000).toFixed(1) + '만';
+            return num.toLocaleString();
+        }
+    </script>
+</body>
+</html>
